@@ -52,7 +52,7 @@ pipeline {
         stage('Package') {
             steps {
                 sh 'make package'
-                sh 'make package ARGS="--packages=Town06,Town07 --clean-intermediate"'
+                sh 'make package ARGS="--packages=AdditionalMaps --clean-intermediate"'
             }
             post {
                 always {
@@ -78,6 +78,7 @@ pipeline {
         stage('Deploy') {
             when { anyOf { branch "master"; buildingTag() } }
             steps {
+                sh 'git checkout .'
                 sh 'make deploy ARGS="--replace-latest --docker-push"'
             }
         }
